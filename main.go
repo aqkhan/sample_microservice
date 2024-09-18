@@ -1,32 +1,44 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
 	"time"
-
 	"github.com/aqkhan/sample_microservice/sample_service"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"google.golang.org/grpc"
 )
 
-type SampleMessage struct {
-	RequestCount		uint64
-	ResponseCount		uint64
-	Message				string
-	RequestTimeStamp	time.Time
-	ResponseTimeStamp	time.Time
+type localSampleServiceServer struct {
+	sample_service.UnimplementedSampleServiceServer
+}
+
+func (s localSampleServiceServer) Create(ctx context.Context, req *sample_service.CreateRequest) (*sample_service.CreateResponse, error) {
+	return &sample_service.CreateResponse{
+		DeformedMessage: 	req.Message + " <--- Sample service MARKED ||// Timestamp: " + time.Now().Format(time.RFC3339),
+		ResponseTimeStamp: 	timestamppb.Now(),
+	}, nil
 }
 
 func main() {
 	fmt.Println("Hello from the Sample Microservice")
 
-	lis, err := net.Listen("tcp", "6969")
+	lis, err := net.Listen("tcp", ":6969")
 	if err != nil {
 		log.Fatalln("Error listning to to TCP port 6969. Error message: " + err.Error())
 	}
 	serverRegistrar := grpc.NewServer()
 
-	sample_service.RegisterSampleServiceServer(s serserverRegistrar, )
+	service := &localSampleServiceServer{}
+
+	sample_service.RegisterSampleServiceServer(serverRegistrar, service)
+
+	err = serverRegistrar.Serve(lis)
+
+	if err != nil {
+		log.Fatalln("Error serving server registrar. Error message: " +  err.Error())
+	}
 }
 
