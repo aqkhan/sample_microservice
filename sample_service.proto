@@ -1,0 +1,20 @@
+syntax = "proto3";
+option go_package = "github.com/aqkhan/sample_microservice/sample_service";
+
+import "google/protobuf/timestamp.proto";
+
+message CreateRequest {
+    string                  message = 1;
+    google.protobuf.Timestamp request_time_stamp = 2;
+}
+
+message CreateResponse {
+    string                  deformed_message = 1;
+    google.protobuf.Timestamp response_time_stamp = 2;
+}
+
+service SampleService {
+    rpc Create(CreateRequest) returns (CreateResponse) {
+
+    }
+}

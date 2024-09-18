@@ -6,8 +6,11 @@ import (
 )
 
 type SampleMessage struct {
-	Message 			string
-	TimeStamp			time.Time
+	RequestCount		uint64
+	ResponseCount		uint64
+	Message				string
+	RequestTimeStamp	time.Time
+	ResponseTimeStamp	time.Time
 }
 
 func main() {
