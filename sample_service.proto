@@ -4,8 +4,8 @@ option go_package = "github.com/aqkhan/sample_microservice/sample_service";
 import "google/protobuf/timestamp.proto";
 
 message CreateRequest {
-    string                  message = 1;
-    google.protobuf.Timestamp request_time_stamp = 2;
+    string                      message = 1;
+    google.protobuf.Timestamp   request_time_stamp = 2;
 }
 
 message CreateResponse {
