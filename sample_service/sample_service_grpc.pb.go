@@ -48,14 +48,13 @@ func (c *sampleServiceClient) Create(ctx context.Context, in *CreateRequest, opt
 }
 
 // SampleServiceServer is the server API for SampleService service.
-// All implementations must embed UnimplementedSampleServiceServer
+// All implementations should embed UnimplementedSampleServiceServer
 // for forward compatibility.
 type SampleServiceServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	mustEmbedUnimplementedSampleServiceServer()
 }
 
-// UnimplementedSampleServiceServer must be embedded to have
+// UnimplementedSampleServiceServer should be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
@@ -65,8 +64,7 @@ type UnimplementedSampleServiceServer struct{}
 func (UnimplementedSampleServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedSampleServiceServer) mustEmbedUnimplementedSampleServiceServer() {}
-func (UnimplementedSampleServiceServer) testEmbeddedByValue()                       {}
+func (UnimplementedSampleServiceServer) testEmbeddedByValue() {}
 
 // UnsafeSampleServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to SampleServiceServer will

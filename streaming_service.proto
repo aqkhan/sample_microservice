@@ -1,0 +1,15 @@
+syntax = "proto3";
+option go_package = "github.com/aqkhan/sample_microservice/sample_service";
+
+message StreamRequest {
+    string                      id = 1;
+}
+
+message StreamResponse {
+    string                      buffer = 1;
+    uint32                      part = 2;
+}
+
+service StreamData {
+    rpc DataStream(StreamRequest) returns (stream StreamResponse) {}
+}
