@@ -9,12 +9,11 @@ message CreateRequest {
 }
 
 message CreateResponse {
-    string                  deformed_message = 1;
-    google.protobuf.Timestamp response_time_stamp = 2;
+    string                      deformed_message = 1;
+    uint64                      response_counter = 2;
+    google.protobuf.Timestamp   response_time_stamp = 3;
 }
 
 service SampleService {
-    rpc Create(CreateRequest) returns (CreateResponse) {
-
-    }
+    rpc Create(CreateRequest) returns (CreateResponse) {}
 }
