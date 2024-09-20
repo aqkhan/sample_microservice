@@ -33,19 +33,33 @@ func (s localSampleServiceServer) Create(ctx context.Context, req *sample_servic
 }
 
 func (s streaming_server) DataStream(req *ss.StreamRequest, srv ss.StreamData_DataStreamServer) error {
-	for i := 0; i <= 10; i++ {
-		value := randStringBytes(128)
-		resp := ss.StreamResponse {
-			Part: 	uint32(i),
-			Buffer: value,
-		}
+	duration := 30 * time.Second
+	interval := 500 * time.Millisecond
 
-		if err := srv.Send(&resp); err != nil {
-			log.Fatalf("Error generating response in data streaming service. Error message: %v", err)
-			return err
+	timer := time.NewTimer(duration)
+	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
+
+	i := 0
+
+	for {
+		select {
+		case <- timer.C:
+			return nil
+		case <- ticker.C:
+			value := randStringBytes(128)
+            resp := ss.StreamResponse{
+                Part:   uint32(i),
+                Buffer: value,
+            }
+
+            if err := srv.Send(&resp); err != nil {
+                log.Fatalf("Error generating response in data streaming service. Error message: %v", err)
+                return err
+            }
+            i++
 		}
 	}
-	return nil
 }
 
 func randStringBytes(n int) string {
