@@ -47,7 +47,7 @@ func (s streaming_server) DataStream(req *ss.StreamRequest, srv ss.StreamData_Da
 		case <- timer.C:
 			return nil
 		case <- ticker.C:
-			value := randStringBytes(128)
+			value := "Data for: " + req.Id + "  ---:||:---  " + randStringBytes(128)
             resp := ss.StreamResponse{
                 Part:   uint32(i),
                 Buffer: value,
