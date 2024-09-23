@@ -54,7 +54,7 @@ func (s streaming_server) DataStream(req *ss.StreamRequest, srv ss.StreamData_Da
             }
 
             if err := srv.Send(&resp); err != nil {
-                log.Fatalf("Error generating response in data streaming service. Error message: %v", err)
+                log.Printf("Error generating response in data streaming service. Error message: %v", err)
                 return err
             }
             i++
